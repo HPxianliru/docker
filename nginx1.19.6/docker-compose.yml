@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  nginx:
+    build: .
+    image: nginx:1.19.6
+    container_name: nginx-1.19.6
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 80:80
+      - 443:443
+      - 1443:1443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/conf.d/http:/usr/local/nginx/conf/conf.d/http
+      - ./data/conf.d/stream:/usr/local/nginx/conf/conf.d/stream
+      - ./data/conf.d/key:/usr/local/nginx/conf/conf.d/key
+      - ./data/logs:/var/log/nginx/
+      - ./data/html:/usr/local/nginx/html
+    networks:
+      - myweb
+
+networks:
+  myweb:
+    driver: bridge
