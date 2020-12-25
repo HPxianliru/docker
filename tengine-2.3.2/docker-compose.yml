@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  nginx:
+    image: tengine:2.3.2
+    container_name: tengine
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/conf.d/http/:/etc/nginx/conf.d/http/
+      - ./data/conf.d/stream/:/etc/nginx/conf.d/stream/
+      - ./data/logs:/var/log/nginx/
+      - ./data/html:/usr/share/nginx/html
+    networks:
+      - myweb
+
+networks:
+  myweb:
+    driver: bridge
